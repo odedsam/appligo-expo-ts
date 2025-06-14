@@ -57,3 +57,14 @@ function RootLayoutNav() {
     </ThemeProvider>
   );
 }
+
+// import { useEffect } from 'react'
+// import { initDatabase } from '@/lib/init-db'
+
+// export default function RootLayout() {
+//   useEffect(() => {
+//     initDatabase()
+//   }, [])
+
+//   return <Slot />
+// }

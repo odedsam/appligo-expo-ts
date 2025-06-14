@@ -57,3 +57,36 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+
+// import { Tabs } from 'expo-router'
+
+// export default function Layout() {
+//   return (
+//     <Tabs>
+//       <Tabs.Screen name="goals" options={{ title: 'Goals' }} />
+//       <Tabs.Screen name="tasks" options={{ title: 'Tasks' }} />
+//       <Tabs.Screen name="daily-entries" options={{ title: 'Daily Entries' }} />
+//       <Tabs.Screen name="planner" options={{ title: 'Planner' }} />
+//       <Tabs.Screen name="stats" options={{ title: 'Stats' }} />
+//       <Tabs.Screen name="assistant" options={{ title: 'Assistant' }} />
+//     </Tabs>
+//   )
+// }
+
+
+// app/(tabs)/_layout.tsx
+// import { Tabs } from 'expo-router'
+
+// export default function TabLayout() {
+//   return (
+//     <Tabs>
+//       <Tabs.Screen name="index" options={{ title: 'Home' }} />
+//       <Tabs.Screen name="planner" options={{ title: 'Planner' }} />
+//       <Tabs.Screen name="goals" options={{ title: 'Goals' }} />
+//       <Tabs.Screen name="flow" options={{ title: 'Flow Mode' }} />
+//       <Tabs.Screen name="stats" options={{ title: 'Stats' }} />
+//       <Tabs.Screen name="assistant" options={{ title: 'Assistant' }} />
+//     </Tabs>
+//   )
+// }
