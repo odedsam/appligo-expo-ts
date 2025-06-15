@@ -22,8 +22,6 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
       }}>
       <Tabs.Screen
@@ -59,34 +57,14 @@ export default function TabLayout() {
 }
 
 
-// import { Tabs } from 'expo-router'
 
-// export default function Layout() {
+// import { Stack } from 'expo-router';
+
+// export default function RootLayout() {
 //   return (
-//     <Tabs>
-//       <Tabs.Screen name="goals" options={{ title: 'Goals' }} />
-//       <Tabs.Screen name="tasks" options={{ title: 'Tasks' }} />
-//       <Tabs.Screen name="daily-entries" options={{ title: 'Daily Entries' }} />
-//       <Tabs.Screen name="planner" options={{ title: 'Planner' }} />
-//       <Tabs.Screen name="stats" options={{ title: 'Stats' }} />
-//       <Tabs.Screen name="assistant" options={{ title: 'Assistant' }} />
-//     </Tabs>
-//   )
-// }
-
-
-// app/(tabs)/_layout.tsx
-// import { Tabs } from 'expo-router'
-
-// export default function TabLayout() {
-//   return (
-//     <Tabs>
-//       <Tabs.Screen name="index" options={{ title: 'Home' }} />
-//       <Tabs.Screen name="planner" options={{ title: 'Planner' }} />
-//       <Tabs.Screen name="goals" options={{ title: 'Goals' }} />
-//       <Tabs.Screen name="flow" options={{ title: 'Flow Mode' }} />
-//       <Tabs.Screen name="stats" options={{ title: 'Stats' }} />
-//       <Tabs.Screen name="assistant" options={{ title: 'Assistant' }} />
-//     </Tabs>
-//   )
+//     <Stack screenOptions={{ headerShown: false }}>
+//       <Stack.Screen name="welcome" />
+//       <Stack.Screen name="(tabs)" />
+//     </Stack>
+//   );
 // }

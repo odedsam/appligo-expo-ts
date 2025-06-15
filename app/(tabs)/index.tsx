@@ -105,3 +105,16 @@ export default function Home() {
     </SafeAreaView>
   );
 }
+
+// import { Redirect } from 'expo-router';
+
+// export default function Index() {
+//   // Add logic here to check if user is first time or returning
+//   const isFirstTime = true; // Replace with actual logic
+
+//   if (isFirstTime) {
+//     return <Redirect href="/welcome" />;
+//   }
+
+//   return <Redirect href="/(tabs)" />;
+// }
