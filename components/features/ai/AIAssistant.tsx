@@ -61,7 +61,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({
       id: '2',
       title: 'Focus Session',
       description: 'Plan your next focus session',
-      icon: 'target',
+      icon: 'add',
       color: 'from-blue-400 to-purple-500',
       prompt: 'Help me plan an effective focus session. What should I work on?',
     },

@@ -1,3 +1,10 @@
+// Define the Task type if not already imported
+import Card from "@/components/ui/Card";
+import type { Task } from "@/types";
+import { Text, View } from 'react-native'
+import { TaskItem } from "./TaskItem";
+import { Feather } from "@expo/vector-icons";
+
 interface TaskListProps {
   tasks: Task[];
   onToggleComplete: (taskId: string) => void;
@@ -19,7 +26,7 @@ export function TaskList({
   showCompleted = true,
   emptyMessage = "No tasks found"
 }: TaskListProps) {
-  const filteredTasks = showCompleted ? tasks : tasks.filter(task => !task.isCompleted);
+  const filteredTasks = showCompleted ? tasks : tasks.filter(task => !task.is_done);
 
   const groupTasks = (tasks: Task[]) => {
     if (groupBy === 'none') {
@@ -32,24 +39,25 @@ export function TaskList({
 
       switch (groupBy) {
         case 'priority':
-          key = task.priority;
+          key = task.priority ?? 'No Priority';
           break;
         case 'category':
-          key = task.category || 'Uncategorized';
+          key = (task as any).category || 'Uncategorized';
           break;
         case 'dueDate':
-          if (!task.dueDate) {
+          if (!task.due_date) {
             key = 'No Due Date';
           } else {
             const today = new Date();
             const tomorrow = new Date(today);
             tomorrow.setDate(tomorrow.getDate() + 1);
 
-            if (task.dueDate.toDateString() === today.toDateString()) {
+            const dueDate = typeof task.due_date === "string" ? new Date(task.due_date) : task.due_date;
+            if (dueDate.toDateString() === today.toDateString()) {
               key = 'Today';
-            } else if (task.dueDate.toDateString() === tomorrow.toDateString()) {
+            } else if (dueDate.toDateString() === tomorrow.toDateString()) {
               key = 'Tomorrow';
-            } else if (task.dueDate < today) {
+            } else if (dueDate < today) {
               key = 'Overdue';
             } else {
               key = 'Upcoming';
@@ -105,8 +113,16 @@ export function TaskList({
 
           {group.tasks.map((task) => (
             <TaskItem
-              key={task.id}
-              task={task}
+              key={String(task.id)}
+              task={{
+                ...task,
+                id: String(task.id),
+                isCompleted: typeof task.is_done === "boolean" ? task.is_done : !!task.is_done,
+                createdAt: (task as any).createdAt ?? new Date(),
+                priority: (["low", "medium", "high", "urgent"].includes(task.priority as string)
+                  ? task.priority
+                  : "low") as "low" | "medium" | "high" | "urgent"
+              }}
               onToggleComplete={onToggleComplete}
               onPress={() => onTaskPress?.(task)}
               onEdit={() => onTaskEdit?.(task)}

@@ -42,7 +42,7 @@ const FlowTimer: React.FC<FlowTimerProps> = ({
   const [totalBreakTime, setTotalBreakTime] = useState(0); // in seconds
   const [sound, setSound] = useState<Audio.Sound | null>(null);
 
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<number>(0);
 
   useEffect(() => {
@@ -138,7 +138,10 @@ const FlowTimer: React.FC<FlowTimerProps> = ({
       ]
     );
 
-    onTimerComplete?.(currentType, duration);
+    onTimerComplete?.(
+      currentType === 'work' ? 'work' : 'break',
+      duration
+    );
   };
 
   const getDurationForType = (type: TimerType): number => {

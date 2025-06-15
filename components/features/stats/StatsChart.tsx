@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { View, Text, ScrollView, Pressable, Dimensions } from 'react-native';
-import { LineChart, BarChart, PieChart, AreaChart ,XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell} from 'recharts';
+import { LineChart, BarChart, PieChart, AreaChart ,XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, Bar, Pie, Line, Area} from 'recharts';
 import { Ionicons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');

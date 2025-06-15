@@ -48,8 +48,8 @@ export function PlannerCard({
     return icons[category];
   };
 
-  const getCategoryColor = (category: PlannerEvent['category']) => {
-    const colors = {
+  const getCategoryColor = (category: PlannerEvent['category']): [string, string] => {
+    const colors: Record<PlannerEvent['category'], [string, string]> = {
       work: ['#3b82f6', '#1d4ed8'], // Blue
       personal: ['#10b981', '#059669'], // Green
       health: ['#ef4444', '#dc2626'], // Red

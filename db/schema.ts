@@ -14,6 +14,8 @@ export const tasks = sqliteTable("tasks", {
   is_done: integer("is_done").default(0),
   energy_level: text("energy_level"),
   time_estimate: integer("time_estimate"),
+  priority: text("priority"),
+  due_date: text("due_date"),
 });
 export const daily_entries = sqliteTable("daily_entries", {
   id: integer("id").primaryKey({ autoIncrement: true }),
@@ -29,4 +31,4 @@ export const daily_entries = sqliteTable("daily_entries", {
 
 export type DailyEntries = typeof daily_entries.$inferSelect;
 export type Task = typeof tasks.$inferSelect;
-export type Goals = typeof goals.$inferSelect;
+export type Goal = typeof goals.$inferSelect;

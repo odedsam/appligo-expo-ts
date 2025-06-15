@@ -1,7 +1,10 @@
 import { View, Text } from 'react-native';
+import type { GoalCard } from './GoalCard';
+import Card from '@/components/ui/Card';
+import { Feather } from '@expo/vector-icons';
 
 interface GoalProgressProps {
-  goals: Goal[];
+  goals: GoalCard[];
   timeframe?: 'daily' | 'weekly' | 'monthly' | 'yearly';
 }
 
@@ -19,7 +22,7 @@ export function GoalProgress({ goals, timeframe = 'weekly' }: GoalProgressProps)
       acc[goal.category].completed++;
     }
     return acc;
-  }, {} as Record<Goal['category'], { total: number; completed: number }>);
+  }, {} as Record<GoalCard['category'], { total: number; completed: number }>);
 
   return (
     <Card variant="glass" className="mb-6">
@@ -80,7 +83,7 @@ export function GoalProgress({ goals, timeframe = 'weekly' }: GoalProgressProps)
             <View key={category} className="flex-row items-center justify-between mb-3">
               <View className="flex-row items-center flex-1">
                 <View className="bg-gray-100 dark:bg-gray-800 rounded-full p-2 mr-3">
-                  <Feather name={getCategoryIcon(category as Goal['category'])} size={14} color="#667eea" />
+                  <Feather name={getCategoryIcon(category as GoalCard['category'])} size={14} color="#667eea" />
                 </View>
                 <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 capitalize">
                   {category}
@@ -106,7 +109,7 @@ export function GoalProgress({ goals, timeframe = 'weekly' }: GoalProgressProps)
 }
 
 // Helper function (should be at component level)
-const getCategoryIcon = (category: Goal['category']) => {
+const getCategoryIcon = (category: GoalCard['category']) => {
   const icons = {
     health: 'heart',
     work: 'briefcase',

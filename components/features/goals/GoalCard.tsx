@@ -1,24 +1,22 @@
 import React from 'react';
+import type { Goal } from '@/types';
+import type { ColorValue } from 'react-native';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
-import Card from '../../ui/Card';
+import Card from '@/components/ui/Card';
 
-interface Goal {
-  id: string;
-  title: string;
-  description?: string;
+export interface GoalCard extends Goal {
   progress: number;
   target: number;
   category: 'health' | 'work' | 'personal' | 'learning' | 'finance';
   priority: 'low' | 'medium' | 'high';
   deadline?: Date;
   isCompleted: boolean;
-  createdAt: Date;
 }
 
 interface GoalCardProps {
-  goal: Goal;
+  goal: GoalCard;
   onPress?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
@@ -28,7 +26,7 @@ interface GoalCardProps {
 export function GoalCard({ goal, onPress, onEdit, onDelete, onToggleComplete }: GoalCardProps) {
   const progressPercentage = Math.round((goal.progress / goal.target) * 100);
 
-  const getCategoryIcon = (category: Goal['category']) => {
+  const getCategoryIcon = (category: GoalCard['category']) => {
     const icons = {
       health: 'heart',
       work: 'briefcase',
@@ -39,8 +37,9 @@ export function GoalCard({ goal, onPress, onEdit, onDelete, onToggleComplete }: 
     return icons[category];
   };
 
-  const getCategoryColor = (category: Goal['category']) => {
-    const colors = {
+
+  const getCategoryColor = (category: GoalCard['category']): readonly [ColorValue, ColorValue] => {
+    const colors: Record<GoalCard['category'], readonly [ColorValue, ColorValue]> = {
       health: ['#ff6b6b', '#ee5a52'],
       work: ['#4ecdc4', '#44a08d'],
       personal: ['#a8e6cf', '#7fcdcd'],
@@ -50,7 +49,7 @@ export function GoalCard({ goal, onPress, onEdit, onDelete, onToggleComplete }: 
     return colors[category];
   };
 
-  const getPriorityColor = (priority: Goal['priority']) => {
+  const getPriorityColor = (priority: GoalCard['priority']) => {
     const colors = {
       low: 'text-green-500',
       medium: 'text-yellow-500',
@@ -144,7 +143,7 @@ export function GoalCard({ goal, onPress, onEdit, onDelete, onToggleComplete }: 
             <View className="flex-row items-center">
               <Feather name="calendar" size={14} color="#6b7280" />
               <Text className="text-xs text-gray-500 dark:text-gray-400 ml-1">
-                {goal.createdAt.toLocaleDateString()}
+                {goal.created_at ? new Date(goal.created_at).toLocaleDateString() : 'N/A'}
               </Text>
             </View>
           </View>

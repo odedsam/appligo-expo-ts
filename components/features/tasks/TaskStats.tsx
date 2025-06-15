@@ -1,21 +1,41 @@
-interface TaskStatsProps {
+import Card from "@/components/ui/Card";
+import type { Task } from "@/types"
+import { LinearGradient } from "expo-linear-gradient";
+import { Text, View } from "react-native";
+
+export interface TaskStatsProps {
   tasks: Task[];
   timeframe?: 'daily' | 'weekly' | 'monthly';
 }
 
+function getPriorityColor(priority: Task['priority']) {
+  switch (priority) {
+    case 'high':
+      return { bg: 'bg-red-500' };
+    case 'medium':
+      return { bg: 'bg-yellow-500' };
+    case 'low':
+      return { bg: 'bg-green-500' };
+    default:
+      return { bg: 'bg-gray-400' };
+  }
+}
+
 export function TaskStats({ tasks, timeframe = 'daily' }: TaskStatsProps) {
-  const completedTasks = tasks.filter(task => task.isCompleted).length;
+  const completedTasks = tasks.filter(task => task.is_done === 1).length;
   const totalTasks = tasks.length;
   const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
   const overdueTasks = tasks.filter(task =>
-    task.dueDate && task.dueDate < new Date() && !task.isCompleted
+    task.due_date && new Date(task.due_date) < new Date() && task.is_done !== 1
   ).length;
 
   const priorityStats = tasks.reduce((acc, task) => {
-    acc[task.priority] = (acc[task.priority] || 0) + 1;
+    if ('priority' in task && task.priority !== undefined && task.priority !== null) {
+      acc[task.priority as string] = (acc[task.priority as string] || 0) + 1;
+    }
     return acc;
-  }, {} as Record<Task['priority'], number>);
+  }, {} as Record<string, number>);
 
   return (
     <Card variant="glass" className="mb-4">
