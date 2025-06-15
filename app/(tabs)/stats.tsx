@@ -24,8 +24,7 @@ export default function StatsScreen() {
         width={screenWidth - 32}
         height={220}
         chartConfig={chartConfig}
-        verticalLabelRotation={30}
-      />
+        verticalLabelRotation={30} yAxisLabel={''} yAxisSuffix={''}      />
     </View>
   )
 }

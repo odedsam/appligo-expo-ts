@@ -3,10 +3,11 @@ import { View, Text, FlatList, SafeAreaView, ScrollView } from "react-native";
 import { useSQLiteContext } from "expo-sqlite";
 import { drizzle, useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
-import * as schema from "@/db/schema";
 import { DailyEntries, Goals, Task } from "@/db/schema";
+import * as schema from "@/db/schema";
 
 export default function Home() {
+
   const db = useSQLiteContext();
   useDrizzleStudio(db);
   const drizzleDb = drizzle(db, { schema });
@@ -63,6 +64,7 @@ export default function Home() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-900 p-4">
+           <Text className="text-white text-2xl font-bold mb-4"></Text>
       <ScrollView>
         <Text className="text-white text-2xl font-bold mb-4">Daily Entries</Text>
         {entries.data.length === 0 ? (

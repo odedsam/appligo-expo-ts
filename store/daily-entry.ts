@@ -1,50 +1,45 @@
-import create from 'zustand'
-import {
-  fetchDailyEntries,
-  insertDailyEntry,
-  updateDailyEntryInDb,
-  deleteDailyEntryFromDb,
-} from '@/lib/daily-entry-db'
+// import create from 'zustand'
 
-export interface DailyEntry {
-  id: number
-  date: string // ISO date string, unique per day
-  notes?: string
-  energy_level?: string
-  mood?: string
-}
 
-interface DailyEntriesState {
-  dailyEntries: DailyEntry[]
-  loadEntries: () => Promise<void>
-  addEntry: (entry: Omit<DailyEntry, 'id'>) => Promise<void>
-  updateEntry: (id: number, data: Partial<Omit<DailyEntry, 'id'>>) => Promise<void>
-  removeEntry: (id: number) => Promise<void>
-}
+// export interface DailyEntry {
+//   id: number
+//   date: string // ISO date string, unique per day
+//   notes?: string
+//   energy_level?: string
+//   mood?: string
+// }
 
-export const useDailyEntriesStore = create<DailyEntriesState>((set, get) => ({
-  dailyEntries: [],
+// interface DailyEntriesState {
+//   dailyEntries: DailyEntry[]
+//   loadEntries: () => Promise<void>
+//   addEntry: (entry: Omit<DailyEntry, 'id'>) => Promise<void>
+//   updateEntry: (id: number, data: Partial<Omit<DailyEntry, 'id'>>) => Promise<void>
+//   removeEntry: (id: number) => Promise<void>
+// }
 
-  loadEntries: async () => {
-    const dailyEntries = await fetchDailyEntries()
-    set({ dailyEntries })
-  },
+// export const useDailyEntriesStore = create<DailyEntriesState>((set, get) => ({
+//   dailyEntries: [],
 
-  addEntry: async (entry) => {
-    await insertDailyEntry(entry)
-    await get().loadEntries()
-  },
+//   loadEntries: async () => {
+//     const dailyEntries = await fetchDailyEntries()
+//     set({ dailyEntries })
+//   },
 
-  updateEntry: async (id, data) => {
-    await updateDailyEntryInDb(id, data)
-    await get().loadEntries()
-  },
+//   addEntry: async (entry) => {
+//     await insertDailyEntry(entry)
+//     await get().loadEntries()
+//   },
 
-  removeEntry: async (id) => {
-    await deleteDailyEntryFromDb(id)
-    await get().loadEntries()
-  },
-}))
+//   updateEntry: async (id, data) => {
+//     await updateDailyEntryInDb(id, data)
+//     await get().loadEntries()
+//   },
+
+//   removeEntry: async (id) => {
+//     await deleteDailyEntryFromDb(id)
+//     await get().loadEntries()
+//   },
+// }))
 
 // import React, { useEffect, useState } from 'react'
 // import { View, Text, TextInput, Button, FlatList } from 'react-native'

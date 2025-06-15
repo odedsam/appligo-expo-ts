@@ -13,32 +13,32 @@
 
 
 
-import React, { useEffect } from 'react'
-import { View, Text, Button, FlatList } from 'react-native'
-import { useGoalStore } from '@/store/goals'
-import { useNavigation } from '@react-navigation/native'
+// import React, { useEffect } from 'react'
+// import { View, Text, Button, FlatList } from 'react-native'
+// // import { useGoalStore } from '@/store/goals'
+// import { useNavigation } from '@react-navigation/native'
 
-export default function GoalsScreen() {
-  const { goals, loadGoals } = useGoalStore()
-  const navigation = useNavigation()
+// export default function GoalsScreen() {
+//   const { goals, loadGoals } = useGoalStore()
+//   const navigation = useNavigation()
 
-  useEffect(() => {
-    loadGoals()
-  }, [])
+//   useEffect(() => {
+//     loadGoals()
+//   }, [])
 
-  return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <Text style={{ fontSize: 24 }}>Goals</Text>
-      <FlatList
-        data={goals}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <Text>{item.title}</Text>}
-      />
-      <Button title="Go to Tasks" onPress={() => navigation.navigate('Tasks')} />
-      <Button title="Go to Daily Entries" onPress={() => navigation.navigate('DailyEntries')} />
-    </View>
-  )
-}
+//   return (
+//     <View style={{ flex: 1, padding: 16 }}>
+//       <Text style={{ fontSize: 24 }}>Goals</Text>
+//       <FlatList
+//         data={goals}
+//         keyExtractor={(item) => item.id.toString()}
+//         renderItem={({ item }) => <Text>{item.title}</Text>}
+//       />
+//       <Button title="Go to Tasks" onPress={() => console.log("Go To Tasks Pressed")} />
+//       <Button title="Go to Daily Entries" onPress={() => console.log("Daily Enteries Pressed")} />
+//     </View>
+//   )
+// }
 
 
 
