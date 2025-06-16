@@ -1,6 +1,7 @@
-import { desc, eq } from "drizzle-orm";
-import { goals, Goals } from "./schema";
-import { db } from "@/db/db";
+import { db } from '@/db/db';
+import { desc, eq } from 'drizzle-orm';
+
+import { Goals, goals } from './schema';
 
 // Fetch goals ordered by created_at DESC
 export const fetchGoals = async (): Promise<Goals[]> => {
@@ -9,7 +10,7 @@ export const fetchGoals = async (): Promise<Goals[]> => {
 };
 
 // Insert goal
-export const insertGoal = async (goal: Omit<Goals, "id">): Promise<void> => {
+export const insertGoal = async (goal: Omit<Goals, 'id'>): Promise<void> => {
   await db.insert(goals).values({
     title: goal.title,
     description: goal.description ?? null,
@@ -18,7 +19,7 @@ export const insertGoal = async (goal: Omit<Goals, "id">): Promise<void> => {
 };
 
 // Update goal
-export const updateGoalInDb = async (id: number, data: Partial<Omit<Goals, "id">>): Promise<void> => {
+export const updateGoalInDb = async (id: number, data: Partial<Omit<Goals, 'id'>>): Promise<void> => {
   const updateData: Partial<typeof goals.$inferInsert> = {};
 
   if (data.title !== undefined) updateData.title = data.title;

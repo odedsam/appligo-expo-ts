@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Pressable, ScrollView, TextInput, Alert, Animated } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Alert, Animated, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+
 import { Ionicons } from '@expo/vector-icons';
+
 import { LinearGradient } from 'expo-linear-gradient';
 
 interface AIMessage {
@@ -27,12 +29,7 @@ interface QuickAction {
   prompt: string;
 }
 
-const AIAssistant: React.FC<AIAssistantProps> = ({
-  onMessageSent,
-  onAssistantResponse,
-  isConnected = true,
-  userName = 'User',
-}) => {
+const AIAssistant: React.FC<AIAssistantProps> = ({ onMessageSent, onAssistantResponse, isConnected = true, userName = 'User' }) => {
   const [messages, setMessages] = useState<AIMessage[]>([
     {
       id: '1',
@@ -98,7 +95,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({
             duration: 800,
             useNativeDriver: true,
           }),
-        ])
+        ]),
       );
       pulse.start();
     } else {
@@ -115,16 +112,16 @@ const AIAssistant: React.FC<AIAssistantProps> = ({
 
   const simulateAIResponse = async (userMessage: string): Promise<string> => {
     // Simulate AI processing time
-    await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 2000));
+    await new Promise((resolve) => setTimeout(resolve, 1500 + Math.random() * 2000));
 
     // Simple response logic - in a real app, this would call your AI service
     const responses = {
       greeting: [
         "Hello! I'm here to help you boost your productivity and achieve your goals. What would you like to work on today?",
-        "Hi there! Ready to make today productive? I can help with time management, goal setting, or any questions you have.",
+        'Hi there! Ready to make today productive? I can help with time management, goal setting, or any questions you have.',
       ],
       productivity: [
-        "Here are some proven productivity strategies:\n\n1. **Time Blocking**: Schedule specific blocks for different tasks\n2. **2-Minute Rule**: If it takes less than 2 minutes, do it now\n3. **Energy Management**: Match high-energy tasks with your peak hours\n\nWhich of these resonates with you?",
+        'Here are some proven productivity strategies:\n\n1. **Time Blocking**: Schedule specific blocks for different tasks\n2. **2-Minute Rule**: If it takes less than 2 minutes, do it now\n3. **Energy Management**: Match high-energy tasks with your peak hours\n\nWhich of these resonates with you?',
         "Great question! Try the Pomodoro Technique: 25 minutes focused work, 5-minute break. Also, prioritize tasks using the Eisenhower Matrix (urgent vs important). What's your biggest productivity challenge?",
       ],
       focus: [
@@ -173,7 +170,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({
       timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInputText('');
     setShowQuickActions(false);
     setIsTyping(true);
@@ -189,7 +186,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({
         timestamp: new Date(),
       };
 
-      setMessages(prev => [...prev, assistantMessage]);
+      setMessages((prev) => [...prev, assistantMessage]);
       onAssistantResponse?.(response);
     } catch (error) {
       const errorMessage: AIMessage = {
@@ -198,7 +195,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({
         role: 'assistant',
         timestamp: new Date(),
       };
-      setMessages(prev => [...prev, errorMessage]);
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsTyping(false);
     }
@@ -215,93 +212,68 @@ const AIAssistant: React.FC<AIAssistantProps> = ({
   return (
     <View className="flex-1 bg-gray-50">
       {/* Header */}
-      <LinearGradient
-        colors={['#667eea', '#764ba2']}
-        className="px-6 py-4 pb-6"
-      >
+      <LinearGradient colors={['#667eea', '#764ba2']} className="px-6 py-4 pb-6">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center">
-            <View className="w-10 h-10 rounded-full bg-white/20 items-center justify-center mr-3">
+            <View className="mr-3 h-10 w-10 items-center justify-center rounded-full bg-white/20">
               <Ionicons name="sparkles" size={20} color="white" />
             </View>
             <View>
-              <Text className="text-white font-bold text-lg">AI Assistant</Text>
+              <Text className="text-lg font-bold text-white">AI Assistant</Text>
               <View className="flex-row items-center">
-                <View className={`w-2 h-2 rounded-full mr-2 ${isConnected ? 'bg-green-400' : 'bg-red-400'}`} />
-                <Text className="text-white/80 text-sm">
-                  {isConnected ? 'Online' : 'Offline'}
-                </Text>
+                <View className={`mr-2 h-2 w-2 rounded-full ${isConnected ? 'bg-green-400' : 'bg-red-400'}`} />
+                <Text className="text-sm text-white/80">{isConnected ? 'Online' : 'Offline'}</Text>
               </View>
             </View>
           </View>
 
           <Pressable
             onPress={() => {
-              Alert.alert(
-                'Clear Chat',
-                'Are you sure you want to clear the conversation?',
-                [
-                  { text: 'Cancel', style: 'cancel' },
-                  {
-                    text: 'Clear',
-                    style: 'destructive',
-                    onPress: () => {
-                      setMessages([messages[0]]); // Keep welcome message
-                      setShowQuickActions(true);
-                    },
+              Alert.alert('Clear Chat', 'Are you sure you want to clear the conversation?', [
+                { text: 'Cancel', style: 'cancel' },
+                {
+                  text: 'Clear',
+                  style: 'destructive',
+                  onPress: () => {
+                    setMessages([messages[0]]); // Keep welcome message
+                    setShowQuickActions(true);
                   },
-                ]
-              );
+                },
+              ]);
             }}
-            className="p-2 rounded-full bg-white/20"
-          >
+            className="rounded-full bg-white/20 p-2">
             <Ionicons name="refresh" size={20} color="white" />
           </Pressable>
         </View>
       </LinearGradient>
 
       {/* Messages */}
-      <ScrollView
-        ref={scrollViewRef}
-        className="flex-1 px-4 py-4"
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView ref={scrollViewRef} className="flex-1 px-4 py-4" showsVerticalScrollIndicator={false}>
         {messages.map((message) => (
-          <View
-            key={message.id}
-            className={`mb-4 ${message.role === 'user' ? 'items-end' : 'items-start'}`}
-          >
+          <View key={message.id} className={`mb-4 ${message.role === 'user' ? 'items-end' : 'items-start'}`}>
             <View
-              className={`max-w-[80%] p-4 rounded-2xl ${
-                message.role === 'user'
-                  ? 'bg-blue-500 rounded-br-md'
-                  : 'bg-white rounded-bl-md shadow-sm border border-gray-100'
-              }`}
-            >
-              <Text className={`${message.role === 'user' ? 'text-white' : 'text-gray-800'}`}>
-                {message.content}
-              </Text>
+              className={`max-w-[80%] rounded-2xl p-4 ${
+                message.role === 'user' ? 'rounded-br-md bg-blue-500' : 'rounded-bl-md border border-gray-100 bg-white shadow-sm'
+              }`}>
+              <Text className={`${message.role === 'user' ? 'text-white' : 'text-gray-800'}`}>{message.content}</Text>
             </View>
-            <Text className="text-xs text-gray-500 mt-1 mx-2">
-              {formatTime(message.timestamp)}
-            </Text>
+            <Text className="mx-2 mt-1 text-xs text-gray-500">{formatTime(message.timestamp)}</Text>
           </View>
         ))}
 
         {/* Typing Indicator */}
         {isTyping && (
-          <View className="items-start mb-4">
+          <View className="mb-4 items-start">
             <Animated.View
               style={{ opacity: pulseAnim }}
-              className="bg-white p-4 rounded-2xl rounded-bl-md shadow-sm border border-gray-100"
-            >
+              className="rounded-2xl rounded-bl-md border border-gray-100 bg-white p-4 shadow-sm">
               <View className="flex-row items-center">
                 <View className="flex-row space-x-1">
-                  <View className="w-2 h-2 bg-gray-400 rounded-full" />
-                  <View className="w-2 h-2 bg-gray-400 rounded-full" />
-                  <View className="w-2 h-2 bg-gray-400 rounded-full" />
+                  <View className="h-2 w-2 rounded-full bg-gray-400" />
+                  <View className="h-2 w-2 rounded-full bg-gray-400" />
+                  <View className="h-2 w-2 rounded-full bg-gray-400" />
                 </View>
-                <Text className="text-gray-500 text-sm ml-2">AI is thinking...</Text>
+                <Text className="ml-2 text-sm text-gray-500">AI is thinking...</Text>
               </View>
             </Animated.View>
           </View>
@@ -310,27 +282,27 @@ const AIAssistant: React.FC<AIAssistantProps> = ({
         {/* Quick Actions */}
         {showQuickActions && messages.length === 1 && (
           <View className="mb-6">
-            <Text className="text-gray-600 font-medium mb-3 px-2">Quick Actions</Text>
+            <Text className="mb-3 px-2 font-medium text-gray-600">Quick Actions</Text>
             <View className="space-y-3">
               {quickActions.map((action) => (
-                <Pressable
-                  key={action.id}
-                  onPress={() => handleQuickAction(action)}
-                  className="overflow-hidden rounded-xl"
-                >
+                <Pressable key={action.id} onPress={() => handleQuickAction(action)} className="overflow-hidden rounded-xl">
                   <LinearGradient
-                    colors={action.color.includes('yellow') ? ['#FCD34D', '#F59E0B'] :
-                           action.color.includes('blue') ? ['#60A5FA', '#8B5CF6'] :
-                           action.color.includes('green') ? ['#34D399', '#14B8A6'] :
-                           ['#F472B6', '#EF4444']}
-                    className="p-4 flex-row items-center"
-                  >
-                    <View className="w-10 h-10 rounded-full bg-white/20 items-center justify-center mr-3">
+                    colors={
+                      action.color.includes('yellow')
+                        ? ['#FCD34D', '#F59E0B']
+                        : action.color.includes('blue')
+                          ? ['#60A5FA', '#8B5CF6']
+                          : action.color.includes('green')
+                            ? ['#34D399', '#14B8A6']
+                            : ['#F472B6', '#EF4444']
+                    }
+                    className="flex-row items-center p-4">
+                    <View className="mr-3 h-10 w-10 items-center justify-center rounded-full bg-white/20">
                       <Ionicons name={action.icon} size={20} color="white" />
                     </View>
                     <View className="flex-1">
-                      <Text className="text-white font-semibold">{action.title}</Text>
-                      <Text className="text-white/80 text-sm">{action.description}</Text>
+                      <Text className="font-semibold text-white">{action.title}</Text>
+                      <Text className="text-sm text-white/80">{action.description}</Text>
                     </View>
                     <Ionicons name="chevron-forward" size={20} color="white" />
                   </LinearGradient>
@@ -342,16 +314,16 @@ const AIAssistant: React.FC<AIAssistantProps> = ({
       </ScrollView>
 
       {/* Input */}
-      <View className="px-4 pb-4 bg-white border-t border-gray-200">
+      <View className="border-t border-gray-200 bg-white px-4 pb-4">
         <View className="flex-row items-end space-x-3 py-3">
-          <View className="flex-1 min-h-[44px] max-h-32 bg-gray-100 rounded-2xl px-4 py-3">
+          <View className="max-h-32 min-h-[44px] flex-1 rounded-2xl bg-gray-100 px-4 py-3">
             <TextInput
               value={inputText}
               onChangeText={setInputText}
-              placeholder={isConnected ? "Ask me anything..." : "AI is offline"}
+              placeholder={isConnected ? 'Ask me anything...' : 'AI is offline'}
               placeholderTextColor="#9CA3AF"
               multiline
-              className="text-gray-800 text-base"
+              className="text-base text-gray-800"
               editable={isConnected}
               onSubmitEditing={() => {
                 if (inputText.trim()) {
@@ -364,17 +336,10 @@ const AIAssistant: React.FC<AIAssistantProps> = ({
           <Pressable
             onPress={() => sendMessage(inputText)}
             disabled={!inputText.trim() || !isConnected || isTyping}
-            className={`w-11 h-11 rounded-full items-center justify-center ${
-              inputText.trim() && isConnected && !isTyping
-                ? 'bg-blue-500'
-                : 'bg-gray-300'
-            }`}
-          >
-            <Ionicons
-              name="send"
-              size={18}
-              color={inputText.trim() && isConnected && !isTyping ? 'white' : '#9CA3AF'}
-            />
+            className={`h-11 w-11 items-center justify-center rounded-full ${
+              inputText.trim() && isConnected && !isTyping ? 'bg-blue-500' : 'bg-gray-300'
+            }`}>
+            <Ionicons name="send" size={18} color={inputText.trim() && isConnected && !isTyping ? 'white' : '#9CA3AF'} />
           </Pressable>
         </View>
       </View>

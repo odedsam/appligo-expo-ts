@@ -8,7 +8,7 @@ import { FlatList, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
 import { useSQLiteContext } from 'expo-sqlite';
 
-export default function Home() {
+export default function Admin() {
   const db = useSQLiteContext();
   useDrizzleStudio(db);
   const drizzleDb = drizzle(db, { schema });

@@ -1,8 +1,3 @@
-import type { Goal, Task ,DailyEntries } from "@/db/schema";
+import type { DailyEntries, Goal, Task } from '@/db/schema';
 
-export type {
-  Goal,
-  Task,
-  DailyEntries
-}
-
+export type { Goal, Task, DailyEntries };

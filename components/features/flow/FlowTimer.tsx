@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Pressable, Alert, Vibration } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Alert, Pressable, Text, Vibration, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -80,7 +80,7 @@ const FlowTimer: React.FC<FlowTimerProps> = ({
   const playCompletionSound = async () => {
     try {
       const { sound } = await Audio.Sound.createAsync(
-        require('../../assets/sounds/timer-complete.mp3') // You'll need to add this sound file
+        require('../../assets/sounds/timer-complete.mp3'), // You'll need to add this sound file
       );
       setSound(sound);
       await sound.playAsync();
@@ -119,10 +119,10 @@ const FlowTimer: React.FC<FlowTimerProps> = ({
     // Update statistics
     const duration = getDurationForType(currentType);
     if (currentType === 'work') {
-      setTotalWorkTime(prev => prev + duration * 60);
-      setCompletedSessions(prev => prev + 1);
+      setTotalWorkTime((prev) => prev + duration * 60);
+      setCompletedSessions((prev) => prev + 1);
     } else {
-      setTotalBreakTime(prev => prev + duration * 60);
+      setTotalBreakTime((prev) => prev + duration * 60);
     }
 
     // Play completion sound and vibrate
@@ -135,13 +135,10 @@ const FlowTimer: React.FC<FlowTimerProps> = ({
       [
         { text: 'Skip', onPress: skipToNext },
         { text: 'Start Next', onPress: startNextTimer },
-      ]
+      ],
     );
 
-    onTimerComplete?.(
-      currentType === 'work' ? 'work' : 'break',
-      duration
-    );
+    onTimerComplete?.(currentType === 'work' ? 'work' : 'break', duration);
   };
 
   const getDurationForType = (type: TimerType): number => {
@@ -157,9 +154,7 @@ const FlowTimer: React.FC<FlowTimerProps> = ({
 
   const getNextTimerType = (): TimerType => {
     if (currentType === 'work') {
-      return (completedSessions + 1) % settings.sessionsUntilLongBreak === 0
-        ? 'longBreak'
-        : 'shortBreak';
+      return (completedSessions + 1) % settings.sessionsUntilLongBreak === 0 ? 'longBreak' : 'shortBreak';
     }
     return 'work';
   };
@@ -234,11 +229,8 @@ const FlowTimer: React.FC<FlowTimerProps> = ({
   return (
     <View className="flex-1 bg-gray-50">
       {/* Timer Display */}
-      <View className="flex-1 justify-center items-center p-8">
-        <LinearGradient
-          colors={['#FFFFFF', '#F8FAFC']}
-          className="w-80 h-80 rounded-full justify-center items-center shadow-2xl"
-        >
+      <View className="flex-1 items-center justify-center p-8">
+        <LinearGradient colors={['#FFFFFF', '#F8FAFC']} className="h-80 w-80 items-center justify-center rounded-full shadow-2xl">
           {/* Progress Ring */}
           <View className="absolute inset-4 rounded-full border-8 border-gray-200">
             <View
@@ -252,26 +244,21 @@ const FlowTimer: React.FC<FlowTimerProps> = ({
 
           {/* Timer Content */}
           <View className="items-center">
-            <View className={`p-4 rounded-full mb-4 bg-gradient-to-br ${getTimerColor()}`}>
+            <View className={`mb-4 rounded-full bg-gradient-to-br p-4 ${getTimerColor()}`}>
               <Ionicons name={getTimerIcon()} size={32} color="white" />
             </View>
 
-            <Text className="text-5xl font-bold text-gray-900 mb-2">
-              {formatTime(timeLeft)}
-            </Text>
+            <Text className="mb-2 text-5xl font-bold text-gray-900">{formatTime(timeLeft)}</Text>
 
-            <Text className="text-lg text-gray-600 mb-4">
-              {getTimerTitle()}
-            </Text>
+            <Text className="mb-4 text-lg text-gray-600">{getTimerTitle()}</Text>
 
             <View className="flex-row items-center">
-              <View className={`w-3 h-3 rounded-full mr-2 ${
-                timerState === 'running' ? 'bg-green-500' :
-                timerState === 'paused' ? 'bg-yellow-500' : 'bg-gray-400'
-              }`} />
-              <Text className="text-sm text-gray-600 capitalize">
-                {timerState === 'completed' ? 'Complete' : timerState}
-              </Text>
+              <View
+                className={`mr-2 h-3 w-3 rounded-full ${
+                  timerState === 'running' ? 'bg-green-500' : timerState === 'paused' ? 'bg-yellow-500' : 'bg-gray-400'
+                }`}
+              />
+              <Text className="text-sm capitalize text-gray-600">{timerState === 'completed' ? 'Complete' : timerState}</Text>
             </View>
           </View>
         </LinearGradient>
@@ -279,54 +266,42 @@ const FlowTimer: React.FC<FlowTimerProps> = ({
 
       {/* Controls */}
       <View className="px-8 pb-8">
-        <View className="flex-row space-x-4 mb-6">
+        <View className="mb-6 flex-row space-x-4">
           {timerState === 'idle' || timerState === 'completed' ? (
-            <Pressable
-              onPress={startTimer}
-              className={`flex-1 py-4 rounded-2xl bg-gradient-to-r ${getTimerColor()} shadow-lg`}
-            >
+            <Pressable onPress={startTimer} className={`flex-1 rounded-2xl bg-gradient-to-r py-4 ${getTimerColor()} shadow-lg`}>
               <View className="flex-row items-center justify-center">
                 <Ionicons name="play" size={24} color="white" />
-                <Text className="text-white font-bold text-lg ml-2">Start</Text>
+                <Text className="ml-2 text-lg font-bold text-white">Start</Text>
               </View>
             </Pressable>
           ) : timerState === 'running' ? (
-            <Pressable
-              onPress={pauseTimer}
-              className="flex-1 py-4 rounded-2xl bg-gradient-to-r from-yellow-500 to-yellow-600 shadow-lg"
-            >
+            <Pressable onPress={pauseTimer} className="flex-1 rounded-2xl bg-gradient-to-r from-yellow-500 to-yellow-600 py-4 shadow-lg">
               <View className="flex-row items-center justify-center">
                 <Ionicons name="pause" size={24} color="white" />
-                <Text className="text-white font-bold text-lg ml-2">Pause</Text>
+                <Text className="ml-2 text-lg font-bold text-white">Pause</Text>
               </View>
             </Pressable>
           ) : (
-            <Pressable
-              onPress={resumeTimer}
-              className={`flex-1 py-4 rounded-2xl bg-gradient-to-r ${getTimerColor()} shadow-lg`}
-            >
+            <Pressable onPress={resumeTimer} className={`flex-1 rounded-2xl bg-gradient-to-r py-4 ${getTimerColor()} shadow-lg`}>
               <View className="flex-row items-center justify-center">
                 <Ionicons name="play" size={24} color="white" />
-                <Text className="text-white font-bold text-lg ml-2">Resume</Text>
+                <Text className="ml-2 text-lg font-bold text-white">Resume</Text>
               </View>
             </Pressable>
           )}
 
-          <Pressable
-            onPress={resetTimer}
-            className="px-6 py-4 rounded-2xl bg-gray-200 shadow-lg"
-          >
+          <Pressable onPress={resetTimer} className="rounded-2xl bg-gray-200 px-6 py-4 shadow-lg">
             <Ionicons name="refresh" size={24} color="#374151" />
           </Pressable>
         </View>
 
         {/* Statistics */}
-        <View className="bg-white rounded-2xl p-6 shadow-lg">
-          <Text className="text-lg font-semibold text-gray-900 mb-4">Today's Progress</Text>
+        <View className="rounded-2xl bg-white p-6 shadow-lg">
+          <Text className="mb-4 text-lg font-semibold text-gray-900">Today's Progress</Text>
 
-          <View className="flex-row justify-between mb-4">
+          <View className="mb-4 flex-row justify-between">
             <View className="items-center">
-              <View className="p-3 rounded-full bg-red-100 mb-2">
+              <View className="mb-2 rounded-full bg-red-100 p-3">
                 <Ionicons name="briefcase" size={20} color="#EF4444" />
               </View>
               <Text className="text-2xl font-bold text-gray-900">{completedSessions}</Text>
@@ -334,22 +309,18 @@ const FlowTimer: React.FC<FlowTimerProps> = ({
             </View>
 
             <View className="items-center">
-              <View className="p-3 rounded-full bg-blue-100 mb-2">
+              <View className="mb-2 rounded-full bg-blue-100 p-3">
                 <Ionicons name="time" size={20} color="#3B82F6" />
               </View>
-              <Text className="text-2xl font-bold text-gray-900">
-                {formatTotalTime(totalWorkTime)}
-              </Text>
+              <Text className="text-2xl font-bold text-gray-900">{formatTotalTime(totalWorkTime)}</Text>
               <Text className="text-sm text-gray-600">Focus Time</Text>
             </View>
 
             <View className="items-center">
-              <View className="p-3 rounded-full bg-green-100 mb-2">
+              <View className="mb-2 rounded-full bg-green-100 p-3">
                 <Ionicons name="cafe" size={20} color="#10B981" />
               </View>
-              <Text className="text-2xl font-bold text-gray-900">
-                {formatTotalTime(totalBreakTime)}
-              </Text>
+              <Text className="text-2xl font-bold text-gray-900">{formatTotalTime(totalBreakTime)}</Text>
               <Text className="text-sm text-gray-600">Break Time</Text>
             </View>
           </View>
@@ -359,32 +330,27 @@ const FlowTimer: React.FC<FlowTimerProps> = ({
             {Array.from({ length: settings.sessionsUntilLongBreak }, (_, i) => (
               <View
                 key={i}
-                className={`w-3 h-3 rounded-full ${
-                  i < completedSessions % settings.sessionsUntilLongBreak
-                    ? 'bg-red-500'
-                    : 'bg-gray-200'
-                }`}
+                className={`h-3 w-3 rounded-full ${i < completedSessions % settings.sessionsUntilLongBreak ? 'bg-red-500' : 'bg-gray-200'}`}
               />
             ))}
           </View>
-          <Text className="text-xs text-gray-500 text-center mt-2">
+          <Text className="mt-2 text-center text-xs text-gray-500">
             {settings.sessionsUntilLongBreak - (completedSessions % settings.sessionsUntilLongBreak)} sessions until long break
           </Text>
         </View>
 
         {/* Quick Actions */}
-        <View className="flex-row space-x-4 mt-6">
+        <View className="mt-6 flex-row space-x-4">
           <Pressable
             onPress={() => {
               setCurrentType('work');
               setTimeLeft(settings.workDuration * 60);
               setTimerState('idle');
             }}
-            className="flex-1 py-3 rounded-xl bg-red-100 border border-red-200"
-          >
+            className="flex-1 rounded-xl border border-red-200 bg-red-100 py-3">
             <View className="flex-row items-center justify-center">
               <Ionicons name="briefcase" size={18} color="#EF4444" />
-              <Text className="text-red-600 font-medium ml-2">Work</Text>
+              <Text className="ml-2 font-medium text-red-600">Work</Text>
             </View>
           </Pressable>
 
@@ -394,11 +360,10 @@ const FlowTimer: React.FC<FlowTimerProps> = ({
               setTimeLeft(settings.shortBreakDuration * 60);
               setTimerState('idle');
             }}
-            className="flex-1 py-3 rounded-xl bg-green-100 border border-green-200"
-          >
+            className="flex-1 rounded-xl border border-green-200 bg-green-100 py-3">
             <View className="flex-row items-center justify-center">
               <Ionicons name="cafe" size={18} color="#10B981" />
-              <Text className="text-green-600 font-medium ml-2">Short Break</Text>
+              <Text className="ml-2 font-medium text-green-600">Short Break</Text>
             </View>
           </Pressable>
 
@@ -408,11 +373,10 @@ const FlowTimer: React.FC<FlowTimerProps> = ({
               setTimeLeft(settings.longBreakDuration * 60);
               setTimerState('idle');
             }}
-            className="flex-1 py-3 rounded-xl bg-blue-100 border border-blue-200"
-          >
+            className="flex-1 rounded-xl border border-blue-200 bg-blue-100 py-3">
             <View className="flex-row items-center justify-center">
               <Ionicons name="bed" size={18} color="#3B82F6" />
-              <Text className="text-blue-600 font-medium ml-2">Long Break</Text>
+              <Text className="ml-2 font-medium text-blue-600">Long Break</Text>
             </View>
           </Pressable>
         </View>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, TextInputProps } from 'react-native';
+import { Text, TextInput, TextInputProps, TouchableOpacity, View } from 'react-native';
+
 import { Feather } from '@expo/vector-icons';
 
 interface InputProps extends TextInputProps {
@@ -109,13 +110,9 @@ export default function Input({
     <View className="w-full">
       {/* Label */}
       {label && (
-        <View className="flex-row items-center mb-2">
-          <Text className="text-base font-medium text-gray-900 dark:text-gray-100">
-            {label}
-          </Text>
-          {required && (
-            <Text className="text-red-500 ml-1">*</Text>
-          )}
+        <View className="mb-2 flex-row items-center">
+          <Text className="text-base font-medium text-gray-900 dark:text-gray-100">{label}</Text>
+          {required && <Text className="ml-1 text-red-500">*</Text>}
         </View>
       )}
 
@@ -123,12 +120,8 @@ export default function Input({
       <View className="relative">
         {/* Left Icon */}
         {leftIcon && (
-          <View className="absolute left-3 top-1/2 -translate-y-1/2 z-10">
-            <Feather
-              name={leftIcon}
-              size={20}
-              color={error ? '#ef4444' : success ? '#10b981' : isFocused ? '#3b82f6' : '#6b7280'}
-            />
+          <View className="absolute left-3 top-1/2 z-10 -translate-y-1/2">
+            <Feather name={leftIcon} size={20} color={error ? '#ef4444' : success ? '#10b981' : isFocused ? '#3b82f6' : '#6b7280'} />
           </View>
         )}
 
@@ -154,15 +147,10 @@ export default function Input({
         {(rightIcon || type === 'password') && (
           <TouchableOpacity
             onPress={type === 'password' ? () => setShowPassword(!showPassword) : onRightIconPress}
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-10"
-            disabled={disabled}
-          >
+            className="absolute right-3 top-1/2 z-10 -translate-y-1/2"
+            disabled={disabled}>
             <Feather
-              name={
-                type === 'password'
-                  ? (showPassword ? 'eye-off' : 'eye')
-                  : rightIcon || 'help-circle'
-              }
+              name={type === 'password' ? (showPassword ? 'eye-off' : 'eye') : rightIcon || 'help-circle'}
               size={20}
               color={error ? '#ef4444' : success ? '#10b981' : isFocused ? '#3b82f6' : '#6b7280'}
             />
@@ -171,18 +159,18 @@ export default function Input({
       </View>
 
       {/* Helper Text */}
-      <View className="mt-2 flex-row justify-between items-center">
+      <View className="mt-2 flex-row items-center justify-between">
         <View className="flex-1">
           {error && (
             <View className="flex-row items-center">
               <Feather name="alert-circle" size={16} color="#ef4444" />
-              <Text className="text-red-500 text-sm ml-1">{error}</Text>
+              <Text className="ml-1 text-sm text-red-500">{error}</Text>
             </View>
           )}
           {success && !error && (
             <View className="flex-row items-center">
               <Feather name="check-circle" size={16} color="#10b981" />
-              <Text className="text-green-500 text-sm ml-1">{success}</Text>
+              <Text className="ml-1 text-sm text-green-500">{success}</Text>
             </View>
           )}
         </View>
@@ -200,7 +188,7 @@ export default function Input({
 
 // Specialized Input Components
 export function SearchInput({
-  placeholder = "Search...",
+  placeholder = 'Search...',
   onSearch,
   ...props
 }: Omit<InputProps, 'leftIcon' | 'rightIcon'> & { onSearch?: (text: string) => void }) {
@@ -208,19 +196,14 @@ export function SearchInput({
     <Input
       placeholder={placeholder}
       leftIcon="search"
-      rightIcon={props.value ? "x" : undefined}
+      rightIcon={props.value ? 'x' : undefined}
       onRightIconPress={() => props.onChangeText('')}
       {...props}
     />
   );
 }
 
-export function NumberInput({
-  min,
-  max,
-  step = 1,
-  ...props
-}: InputProps & { min?: number; max?: number; step?: number }) {
+export function NumberInput({ min, max, step = 1, ...props }: InputProps & { min?: number; max?: number; step?: number }) {
   const handleIncrement = () => {
     const currentValue = parseInt(props.value) || 0;
     const newValue = Math.min(currentValue + step, max || Infinity);
@@ -235,25 +218,15 @@ export function NumberInput({
 
   return (
     <View className="flex-row items-center space-x-2">
-      <TouchableOpacity
-        onPress={handleDecrement}
-        className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-lg items-center justify-center"
-      >
+      <TouchableOpacity onPress={handleDecrement} className="h-10 w-10 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
         <Feather name="minus" size={16} color="#6b7280" />
       </TouchableOpacity>
 
       <View className="flex-1">
-        <Input
-          type="numeric"
-          textAlign="center"
-          {...props}
-        />
+        <Input type="numeric" textAlign="center" {...props} />
       </View>
 
-      <TouchableOpacity
-        onPress={handleIncrement}
-        className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-lg items-center justify-center"
-      >
+      <TouchableOpacity onPress={handleIncrement} className="h-10 w-10 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
         <Feather name="plus" size={16} color="#6b7280" />
       </TouchableOpacity>
     </View>

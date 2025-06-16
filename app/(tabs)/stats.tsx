@@ -1,19 +1,20 @@
-import React from 'react'
-import { View, Text, Dimensions } from 'react-native'
-import { BarChart } from 'react-native-chart-kit'
+import { BarChart } from 'react-native-chart-kit';
 
-const screenWidth = Dimensions.get('window').width
+import React from 'react';
+import { Dimensions, Text, View } from 'react-native';
+
+const screenWidth = Dimensions.get('window').width;
 
 const data = {
   labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   datasets: [{ data: [3, 5, 2, 8, 6, 4, 7] }],
-}
+};
 
 const chartConfig = {
   backgroundGradientFrom: '#fff',
   backgroundGradientTo: '#fff',
   color: (opacity = 1) => `rgba(0, 122, 255, ${opacity})`,
-}
+};
 
 export default function StatsScreen() {
   return (
@@ -24,7 +25,10 @@ export default function StatsScreen() {
         width={screenWidth - 32}
         height={220}
         chartConfig={chartConfig}
-        verticalLabelRotation={30} yAxisLabel={''} yAxisSuffix={''}      />
+        verticalLabelRotation={30}
+        yAxisLabel={''}
+        yAxisSuffix={''}
+      />
     </View>
-  )
+  );
 }

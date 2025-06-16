@@ -1,6 +1,7 @@
-import React from 'react'
-import { View, Text } from 'react-native'
-import { CalendarList } from 'react-native-calendars'
+import { CalendarList } from 'react-native-calendars';
+
+import React from 'react';
+import { Text, View } from 'react-native';
 
 export default function PlannerScreen() {
   return (
@@ -11,11 +12,11 @@ export default function PlannerScreen() {
         scrollEnabled
         showScrollIndicator
         onDayPress={(day) => {
-          console.log('selected day', day)
+          console.log('selected day', day);
           // כאן תוסיף ניווט או עדכון סטייט לפי היום שנבחר
         }}
       />
       <Text style={{ marginTop: 16 }}>Tasks for selected day will show here.</Text>
     </View>
-  )
+  );
 }

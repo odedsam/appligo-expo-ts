@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, TouchableOpacity, ViewStyle } from 'react-native';
+import { TouchableOpacity, View, ViewStyle } from 'react-native';
+
 import { LinearGradient } from 'expo-linear-gradient';
 
 interface CardProps {
@@ -114,19 +115,14 @@ export default function Card({
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       className={baseClasses}
-      style={combinedStyle}
-    >
+      style={combinedStyle}>
       {children}
     </LinearGradient>
   );
 
   if (onPress) {
     return (
-      <TouchableOpacity
-        onPress={onPress}
-        activeOpacity={0.85}
-        className="active:scale-98"
-      >
+      <TouchableOpacity onPress={onPress} activeOpacity={0.85} className="active:scale-98">
         {variant === 'gradient' ? <GradientCard /> : <CardContent />}
       </TouchableOpacity>
     );
@@ -138,12 +134,7 @@ export default function Card({
 // Additional Card variants for specific use cases
 export function StatsCard({ children, className = '', ...props }: Omit<CardProps, 'variant'>) {
   return (
-    <Card
-      variant="glass"
-      className={`border border-blue-500/20 ${className}`}
-      glow
-      {...props}
-    >
+    <Card variant="glass" className={`border border-blue-500/20 ${className}`} glow {...props}>
       {children}
     </Card>
   );
@@ -154,8 +145,7 @@ export function FeatureCard({ children, className = '', ...props }: Omit<CardPro
     <Card
       variant="elevated"
       className={`bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 ${className}`}
-      {...props}
-    >
+      {...props}>
       {children}
     </Card>
   );
@@ -165,9 +155,8 @@ export function ActionCard({ children, className = '', ...props }: CardProps) {
   return (
     <Card
       variant="outline"
-      className={`border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-blue-500 transition-colors ${className}`}
-      {...props}
-    >
+      className={`border-2 border-dashed border-gray-300 transition-colors hover:border-blue-500 dark:border-gray-600 ${className}`}
+      {...props}>
       {children}
     </Card>
   );

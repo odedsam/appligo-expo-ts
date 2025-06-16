@@ -1,9 +1,14 @@
 // PlannerCard.tsx
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+
 import { Feather } from '@expo/vector-icons';
-import Card from '../../ui/Card'; // Assuming this path is correct for your project
+
+import { LinearGradient } from 'expo-linear-gradient';
+
+import Card from '../../ui/Card';
+
+// Assuming this path is correct for your project
 
 interface PlannerEvent {
   id: string;
@@ -28,14 +33,7 @@ interface PlannerCardProps {
   showDate?: boolean;
 }
 
-export function PlannerCard({
-  event,
-  onPress,
-  onEdit,
-  onDelete,
-  variant = 'detailed',
-  showDate = false
-}: PlannerCardProps) {
+export function PlannerCard({ event, onPress, onEdit, onDelete, variant = 'detailed', showDate = false }: PlannerCardProps) {
   const getCategoryIcon = (category: PlannerEvent['category']) => {
     const icons = {
       work: 'briefcase',
@@ -109,44 +107,31 @@ export function PlannerCard({
   if (variant === 'compact') {
     return (
       <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
-        <View className={`flex-row items-center p-3 mb-2 rounded-xl ${
-          isOngoing() ? 'bg-blue-50 dark:bg-blue-900/20' :
-          isPast() ? 'bg-gray-50 dark:bg-gray-800/50' :
-          'bg-white dark:bg-gray-800'
-        }`}>
+        <View
+          className={`mb-2 flex-row items-center rounded-xl p-3 ${
+            isOngoing() ? 'bg-blue-50 dark:bg-blue-900/20' : isPast() ? 'bg-gray-50 dark:bg-gray-800/50' : 'bg-white dark:bg-gray-800'
+          }`}>
           {/* Time Indicator */}
-          <View className="items-center mr-3">
-            <Text className="text-xs font-medium text-gray-500 dark:text-gray-400">
-              {formatTime(event.startTime)}
-            </Text>
-            <View className="w-2 h-2 rounded-full bg-blue-500 my-1" />
-            <Text className="text-xs font-medium text-gray-500 dark:text-gray-400">
-              {formatTime(event.endTime)}
-            </Text>
+          <View className="mr-3 items-center">
+            <Text className="text-xs font-medium text-gray-500 dark:text-gray-400">{formatTime(event.startTime)}</Text>
+            <View className="my-1 h-2 w-2 rounded-full bg-blue-500" />
+            <Text className="text-xs font-medium text-gray-500 dark:text-gray-400">{formatTime(event.endTime)}</Text>
           </View>
 
           {/* Content */}
           <View className="flex-1">
-            <Text className={`font-semibold ${textColorClass}`}>
-              {event.title}
-            </Text>
+            <Text className={`font-semibold ${textColorClass}`}>{event.title}</Text>
             {event.location && (
-              <View className="flex-row items-center mt-1">
+              <View className="mt-1 flex-row items-center">
                 <Feather name="map-pin" size={12} color={subTextColorClass.includes('dark:text-gray-500') ? '#9ca3af' : '#6b7280'} />
-                <Text className={`text-xs ml-1 ${subTextColorClass}`}>
-                  {event.location}
-                </Text>
+                <Text className={`ml-1 text-xs ${subTextColorClass}`}>{event.location}</Text>
               </View>
             )}
-            {showDate && (
-              <Text className={`text-xs mt-1 ${subTextColorClass}`}>
-                {formatDate(event.startTime)}
-              </Text>
-            )}
+            {showDate && <Text className={`mt-1 text-xs ${subTextColorClass}`}>{formatDate(event.startTime)}</Text>}
           </View>
 
           {/* Category Icon */}
-          <View className="bg-gray-100 dark:bg-gray-700 rounded-full p-2">
+          <View className="rounded-full bg-gray-100 p-2 dark:bg-gray-700">
             <Feather name={getCategoryIcon(event.category)} size={16} color={iconColor} />
           </View>
         </View>
@@ -158,102 +143,85 @@ export function PlannerCard({
     <Card
       variant="elevated"
       onPress={onPress}
-      className={`mb-4 ${isOngoing() ? 'border-2 border-blue-500 dark:border-blue-400' : ''} ${
-        isPast() ? 'opacity-70' : ''
-      }`}
-    >
+      className={`mb-4 ${isOngoing() ? 'border-2 border-blue-500 dark:border-blue-400' : ''} ${isPast() ? 'opacity-70' : ''}`}>
       <View className="relative overflow-hidden">
         {/* Category Color Bar */}
         <LinearGradient
           colors={getCategoryColor(event.category)}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          className="h-1 w-full absolute top-0 left-0"
+          className="absolute left-0 top-0 h-1 w-full"
         />
 
         {/* Status Indicator */}
         {isOngoing() && (
-          <View className="absolute top-2 right-2 bg-green-500 rounded-full px-2 py-1">
-            <Text className="text-xs text-white font-medium">Live</Text>
+          <View className="absolute right-2 top-2 rounded-full bg-green-500 px-2 py-1">
+            <Text className="text-xs font-medium text-white">Live</Text>
           </View>
         )}
         {isPast() && event.isCompleted && (
-          <View className="absolute top-2 right-2 bg-purple-500 rounded-full px-2 py-1">
-            <Text className="text-xs text-white font-medium">Completed</Text>
+          <View className="absolute right-2 top-2 rounded-full bg-purple-500 px-2 py-1">
+            <Text className="text-xs font-medium text-white">Completed</Text>
           </View>
         )}
         {isFuture() && (
-          <View className="absolute top-2 right-2 bg-blue-500 rounded-full px-2 py-1">
-            <Text className="text-xs text-white font-medium">Upcoming</Text>
+          <View className="absolute right-2 top-2 rounded-full bg-blue-500 px-2 py-1">
+            <Text className="text-xs font-medium text-white">Upcoming</Text>
           </View>
         )}
         {isPast() && !event.isCompleted && (
-          <View className="absolute top-2 right-2 bg-red-500 rounded-full px-2 py-1">
-            <Text className="text-xs text-white font-medium">Missed</Text>
+          <View className="absolute right-2 top-2 rounded-full bg-red-500 px-2 py-1">
+            <Text className="text-xs font-medium text-white">Missed</Text>
           </View>
         )}
 
         {/* Header */}
-        <View className="flex-row items-start justify-between mt-3 mb-3 px-4">
+        <View className="mb-3 mt-3 flex-row items-start justify-between px-4">
           <View className="flex-1 pr-4">
-            <View className="flex-row items-center mb-2">
-              <LinearGradient
-                colors={getCategoryColor(event.category)}
-                className="rounded-full p-2 mr-3"
-              >
+            <View className="mb-2 flex-row items-center">
+              <LinearGradient colors={getCategoryColor(event.category)} className="mr-3 rounded-full p-2">
                 <Feather name={getCategoryIcon(event.category)} size={16} color="white" />
               </LinearGradient>
               <View className="flex-1">
-                <Text className={`text-lg font-bold ${textColorClass}`}>
-                  {event.title}
-                </Text>
+                <Text className={`text-lg font-bold ${textColorClass}`}>{event.title}</Text>
                 <Text className={`text-sm ${subTextColorClass}`}>
                   {formatTime(event.startTime)} - {formatTime(event.endTime)} ({getDuration()})
                 </Text>
-                {showDate && (
-                  <Text className={`text-sm ${subTextColorClass}`}>
-                    {formatDate(event.startTime)}
-                  </Text>
-                )}
+                {showDate && <Text className={`text-sm ${subTextColorClass}`}>{formatDate(event.startTime)}</Text>}
               </View>
             </View>
 
-            {event.description && (
-              <Text className={`text-sm ${subTextColorClass} mb-2`}>
-                {event.description}
-              </Text>
-            )}
+            {event.description && <Text className={`text-sm ${subTextColorClass} mb-2`}>{event.description}</Text>}
 
             {event.location && (
-              <View className="flex-row items-center mb-1">
+              <View className="mb-1 flex-row items-center">
                 <Feather name="map-pin" size={14} color={subTextColorClass.includes('dark:text-gray-500') ? '#9ca3af' : '#6b7280'} />
-                <Text className={`text-sm ml-2 ${subTextColorClass}`}>
-                  {event.location}
-                </Text>
+                <Text className={`ml-2 text-sm ${subTextColorClass}`}>{event.location}</Text>
               </View>
             )}
 
-            <View className="flex-row items-center mb-1">
+            <View className="mb-1 flex-row items-center">
               <Feather name="tag" size={14} color={subTextColorClass.includes('dark:text-gray-500') ? '#9ca3af' : '#6b7280'} />
-              <Text className={`text-sm ml-2 ${subTextColorClass}`}>
+              <Text className={`ml-2 text-sm ${subTextColorClass}`}>
                 {event.category.charAt(0).toUpperCase() + event.category.slice(1)}
               </Text>
             </View>
 
             <View className="flex-row items-center">
               <Feather name="bar-chart-2" size={14} color={subTextColorClass.includes('dark:text-gray-500') ? '#9ca3af' : '#6b7280'} />
-              <Text className={`text-sm ml-2 font-semibold ${getPriorityColor(event.priority)}`}>
+              <Text className={`ml-2 text-sm font-semibold ${getPriorityColor(event.priority)}`}>
                 {event.priority.charAt(0).toUpperCase() + event.priority.slice(1)} Priority
               </Text>
             </View>
 
             {event.attendees && event.attendees.length > 0 && (
-              <View className="flex-row items-center mt-2">
+              <View className="mt-2 flex-row items-center">
                 <Feather name="users" size={14} color={subTextColorClass.includes('dark:text-gray-500') ? '#9ca3af' : '#6b7280'} />
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} className="ml-2">
                   {event.attendees.map((attendee, index) => (
-                    <Text key={index} className={`text-sm mr-2 ${subTextColorClass}`}>
-                      {attendee}{index < event.attendees!.length - 1 ? ',' : ''}
+                    <Text key={index} className={`mr-2 text-sm ${subTextColorClass}`}>
+                      {attendee}
+                      {index < event.attendees!.length - 1 ? ',' : ''}
                     </Text>
                   ))}
                 </ScrollView>
@@ -264,32 +232,27 @@ export function PlannerCard({
 
         {/* Action Buttons */}
         {(onEdit || onDelete || (event.isCompleted === false && !isPast())) && ( // Only show mark complete for incomplete and non-past events
-          <View className="flex-row justify-end p-3 border-t border-gray-100 dark:border-gray-700">
+          <View className="flex-row justify-end border-t border-gray-100 p-3 dark:border-gray-700">
             {event.isCompleted === false && !isPast() && (
               <TouchableOpacity
-                onPress={() => { /* Implement mark as complete logic */ }}
-                className="flex-row items-center px-3 py-1.5 rounded-full bg-purple-500 ml-2"
-              >
+                onPress={() => {
+                  /* Implement mark as complete logic */
+                }}
+                className="ml-2 flex-row items-center rounded-full bg-purple-500 px-3 py-1.5">
                 <Feather name="check-circle" size={16} color="white" />
-                <Text className="text-white ml-1 text-sm">Complete</Text>
+                <Text className="ml-1 text-sm text-white">Complete</Text>
               </TouchableOpacity>
             )}
             {onEdit && (
-              <TouchableOpacity
-                onPress={onEdit}
-                className="flex-row items-center px-3 py-1.5 rounded-full bg-blue-500 ml-2"
-              >
+              <TouchableOpacity onPress={onEdit} className="ml-2 flex-row items-center rounded-full bg-blue-500 px-3 py-1.5">
                 <Feather name="edit" size={16} color="white" />
-                <Text className="text-white ml-1 text-sm">Edit</Text>
+                <Text className="ml-1 text-sm text-white">Edit</Text>
               </TouchableOpacity>
             )}
             {onDelete && (
-              <TouchableOpacity
-                onPress={onDelete}
-                className="flex-row items-center px-3 py-1.5 rounded-full bg-red-500 ml-2"
-              >
+              <TouchableOpacity onPress={onDelete} className="ml-2 flex-row items-center rounded-full bg-red-500 px-3 py-1.5">
                 <Feather name="trash-2" size={16} color="white" />
-                <Text className="text-white ml-1 text-sm">Delete</Text>
+                <Text className="ml-1 text-sm text-white">Delete</Text>
               </TouchableOpacity>
             )}
           </View>

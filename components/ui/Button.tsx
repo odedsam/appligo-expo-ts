@@ -1,7 +1,9 @@
 import React from 'react';
-import { TouchableOpacity, Text, View, ActivityIndicator } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
+
 import { Feather } from '@expo/vector-icons';
+
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface ButtonProps {
   title: string;
@@ -131,9 +133,7 @@ export default function Button({
           style={{ marginRight: 8 }}
         />
       )}
-      <Text className={`${getTextSizeClasses()} ${styles.text}`}>
-        {title}
-      </Text>
+      <Text className={`${getTextSizeClasses()} ${styles.text}`}>{title}</Text>
       {icon && iconPosition === 'right' && !loading && (
         <Feather
           name={icon}
@@ -151,14 +151,8 @@ export default function Button({
         onPress={onPress}
         disabled={isDisabled}
         className={`${getSizeClasses()} ${fullWidth ? 'w-full' : ''} ${isDisabled ? 'opacity-50' : 'active:scale-95'} ${className}`}
-        style={{ elevation: isDisabled ? 0 : 4 }}
-      >
-        <LinearGradient
-          colors={['#667eea', '#764ba2']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          className={`${getSizeClasses()} -m-0`}
-        >
+        style={{ elevation: isDisabled ? 0 : 4 }}>
+        <LinearGradient colors={['#667eea', '#764ba2']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} className={`${getSizeClasses()} -m-0`}>
           <ButtonContent />
         </LinearGradient>
       </TouchableOpacity>
@@ -170,8 +164,7 @@ export default function Button({
       onPress={onPress}
       disabled={isDisabled}
       className={`${getSizeClasses()} ${styles.container} ${fullWidth ? 'w-full' : ''} ${isDisabled ? 'opacity-50' : 'active:scale-95'} ${className}`}
-      style={{ elevation: variant === 'primary' && !isDisabled ? 4 : 0 }}
-    >
+      style={{ elevation: variant === 'primary' && !isDisabled ? 4 : 0 }}>
       <ButtonContent />
     </TouchableOpacity>
   );

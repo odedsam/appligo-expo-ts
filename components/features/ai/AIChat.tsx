@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Pressable, ScrollView, TextInput, Alert, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+
 import { Ionicons } from '@expo/vector-icons';
+
 import { LinearGradient } from 'expo-linear-gradient';
 
 interface ChatMessage {
@@ -108,7 +110,7 @@ const AIChat: React.FC<AIChatProps> = ({
   const generateAIResponse = async (userMessage: string): Promise<ChatMessage> => {
     // Simulate AI processing
     const processingTime = 1000 + Math.random() * 2000;
-    await new Promise(resolve => setTimeout(resolve, processingTime));
+    await new Promise((resolve) => setTimeout(resolve, processingTime));
 
     const responses = {
       routine: [
@@ -120,11 +122,11 @@ const AIChat: React.FC<AIChatProps> = ({
         "Goal setting is powerful! Break big goals into smaller milestones, create accountability systems, and celebrate progress. The key is consistency over perfection. What's one goal you're excited about achieving this month?",
       ],
       motivation: [
-        "Staying motivated can be challenging! Here are proven strategies:\n\n🔥 **Find Your Why**: Connect tasks to deeper values\n🏆 **Small Wins**: Celebrate micro-achievements\n👥 **Accountability**: Share goals with others\n📈 **Progress Tracking**: Visualize your growth\n🎵 **Environment**: Create inspiring surroundings\n\nWhat usually drains your motivation?",
+        'Staying motivated can be challenging! Here are proven strategies:\n\n🔥 **Find Your Why**: Connect tasks to deeper values\n🏆 **Small Wins**: Celebrate micro-achievements\n👥 **Accountability**: Share goals with others\n📈 **Progress Tracking**: Visualize your growth\n🎵 **Environment**: Create inspiring surroundings\n\nWhat usually drains your motivation?',
         "Motivation comes and goes - discipline and systems are what sustain us! Start with tiny habits, remove friction for good behaviors, and create positive feedback loops. What's one small action you can take right now?",
       ],
       study: [
-        "Effective study techniques backed by science:\n\n🧠 **Active Recall**: Test yourself instead of re-reading\n📚 **Spaced Repetition**: Review material at increasing intervals\n🎯 **Pomodoro Technique**: 25 min focus, 5 min break\n📝 **Feynman Method**: Explain concepts simply\n🔄 **Interleaving**: Mix different topics/subjects\n\nWhich subject are you studying?",
+        'Effective study techniques backed by science:\n\n🧠 **Active Recall**: Test yourself instead of re-reading\n📚 **Spaced Repetition**: Review material at increasing intervals\n🎯 **Pomodoro Technique**: 25 min focus, 5 min break\n📝 **Feynman Method**: Explain concepts simply\n🔄 **Interleaving**: Mix different topics/subjects\n\nWhich subject are you studying?',
         "Great study habits make all the difference! Try the 'Elaborative Interrogation' - ask yourself 'why' and 'how' questions. Also, teach others what you learn and use multiple senses when studying. What's your biggest study challenge?",
       ],
       procrastination: [
@@ -133,7 +135,7 @@ const AIChat: React.FC<AIChatProps> = ({
       ],
       schedule: [
         "Here's a balanced weekly schedule template:\n\n**Monday-Friday:**\n• 6:00-7:00 AM: Morning routine\n• 7:00-9:00 AM: Deep work block\n• 9:00-12:00 PM: Meetings/collaboration\n• 1:00-3:00 PM: Focused tasks\n• 3:00-5:00 PM: Admin/emails\n• Evening: Personal time\n\n**Weekend:**\n• Longer projects, rest, planning\n\nWhat's your ideal wake-up time?",
-        "Time blocking is a game-changer! Assign specific times for different activities, include buffer time, batch similar tasks, and protect your peak energy hours for important work. Would you like help customizing this for your specific situation?",
+        'Time blocking is a game-changer! Assign specific times for different activities, include buffer time, batch similar tasks, and protect your peak energy hours for important work. Would you like help customizing this for your specific situation?',
       ],
       default: [
         "That's an interesting question! I'm here to help you with productivity, motivation, goal setting, and personal development. Could you tell me more about what specifically you'd like assistance with?",
@@ -194,7 +196,7 @@ const AIChat: React.FC<AIChatProps> = ({
     };
 
     // Add user message to chat
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInputText('');
     setShowSuggestions(false);
     setIsLoading(true);
@@ -205,7 +207,7 @@ const AIChat: React.FC<AIChatProps> = ({
       const aiResponse = await generateAIResponse(text.trim());
 
       // Add AI response to chat
-      setMessages(prev => {
+      setMessages((prev) => {
         const updated = [...prev, aiResponse];
         // Limit messages if maxMessages is set
         if (updated.length > maxMessages) {
@@ -223,7 +225,7 @@ const AIChat: React.FC<AIChatProps> = ({
         timestamp: new Date(),
         category: 'general',
       };
-      setMessages(prev => [...prev, errorMessage]);
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -234,21 +236,17 @@ const AIChat: React.FC<AIChatProps> = ({
   };
 
   const clearChat = () => {
-    Alert.alert(
-      'Clear Chat',
-      'Are you sure you want to clear all messages?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Clear',
-          style: 'destructive',
-          onPress: () => {
-            setMessages([]);
-            setShowSuggestions(true);
-          }
+    Alert.alert('Clear Chat', 'Are you sure you want to clear all messages?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Clear',
+        style: 'destructive',
+        onPress: () => {
+          setMessages([]);
+          setShowSuggestions(true);
         },
-      ]
-    );
+      },
+    ]);
   };
 
   const exportChat = () => {
@@ -260,9 +258,7 @@ const AIChat: React.FC<AIChatProps> = ({
     Alert.alert('Chat Exported', 'Your chat history has been exported successfully.');
   };
 
-  const filteredSuggestions = selectedCategory === 'all'
-    ? suggestions
-    : suggestions.filter(s => s.category === selectedCategory);
+  const filteredSuggestions = selectedCategory === 'all' ? suggestions : suggestions.filter((s) => s.category === selectedCategory);
 
   const formatTime = (date: Date): string => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -270,10 +266,14 @@ const AIChat: React.FC<AIChatProps> = ({
 
   const getCategoryColor = (category?: string): string => {
     switch (category) {
-      case 'productivity': return 'bg-blue-100 text-blue-800';
-      case 'planning': return 'bg-green-100 text-green-800';
-      case 'motivation': return 'bg-orange-100 text-orange-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'productivity':
+        return 'bg-blue-100 text-blue-800';
+      case 'planning':
+        return 'bg-green-100 text-green-800';
+      case 'motivation':
+        return 'bg-orange-100 text-orange-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -294,62 +294,45 @@ const AIChat: React.FC<AIChatProps> = ({
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className={`flex-1 ${themeStyles.container}`}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className={`flex-1 ${themeStyles.container}`}>
       {/* Header */}
-      <View className={`pt-12 pb-4 px-4 flex-row items-center justify-between ${themeStyles.header} border-b`}>
+      <View className={`flex-row items-center justify-between px-4 pb-4 pt-12 ${themeStyles.header} border-b`}>
         <Text className={`text-2xl font-bold ${themeStyles.headerText}`}>AI Chat</Text>
         <View className="flex-row">
           <Pressable onPress={exportChat} className="p-2">
             <Ionicons name="share-outline" size={24} color={isDarkMode ? 'white' : 'gray'} />
           </Pressable>
-          <Pressable onPress={clearChat} className="p-2 ml-2">
+          <Pressable onPress={clearChat} className="ml-2 p-2">
             <Ionicons name="trash-outline" size={24} color={isDarkMode ? 'white' : 'gray'} />
           </Pressable>
         </View>
       </View>
 
       {/* Chat Messages */}
-      <ScrollView
-        ref={scrollViewRef}
-        className="flex-1 p-4"
-        contentContainerStyle={{ paddingBottom: 20 }}
-      >
+      <ScrollView ref={scrollViewRef} className="flex-1 p-4" contentContainerStyle={{ paddingBottom: 20 }}>
         {messages.map((message) => (
-          <View
-            key={message.id}
-            className={`flex-row items-end mb-4 ${
-              message.role === 'user' ? 'justify-end' : 'justify-start'
-            }`}
-          >
+          <View key={message.id} className={`mb-4 flex-row items-end ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <View
-              className={`max-w-[80%] p-3 rounded-lg ${
+              className={`max-w-[80%] rounded-lg p-3 ${
                 message.role === 'user'
                   ? themeStyles.chatBubbleUser + ' rounded-br-none'
                   : themeStyles.chatBubbleAI + ' rounded-bl-none border border-gray-200'
-              }`}
-            >
-              <Text className={message.role === 'user' ? 'text-white' : themeStyles.textInput}>
-                {message.content}
-              </Text>
-              <View className="flex-row items-center justify-end mt-1">
+              }`}>
+              <Text className={message.role === 'user' ? 'text-white' : themeStyles.textInput}>{message.content}</Text>
+              <View className="mt-1 flex-row items-center justify-end">
                 {message.category && message.category !== 'general' && (
-                  <View className={`px-2 py-0.5 rounded-full mr-2 ${getCategoryColor(message.category)}`}>
+                  <View className={`mr-2 rounded-full px-2 py-0.5 ${getCategoryColor(message.category)}`}>
                     <Text className="text-xs font-medium">{message.category}</Text>
                   </View>
                 )}
-                <Text className={`text-xs ${themeStyles.chatTimestamp}`}>
-                  {formatTime(message.timestamp)}
-                </Text>
+                <Text className={`text-xs ${themeStyles.chatTimestamp}`}>{formatTime(message.timestamp)}</Text>
               </View>
             </View>
           </View>
         ))}
         {isLoading && (
-          <View className="flex-row items-center justify-start mb-4">
-            <View className={`max-w-[80%] p-3 rounded-lg ${themeStyles.chatBubbleAI} rounded-bl-none border border-gray-200`}>
+          <View className="mb-4 flex-row items-center justify-start">
+            <View className={`max-w-[80%] rounded-lg p-3 ${themeStyles.chatBubbleAI} rounded-bl-none border border-gray-200`}>
               <ActivityIndicator size="small" color={isDarkMode ? 'white' : 'gray'} />
               <Text className={`mt-1 text-xs ${themeStyles.chatTimestamp}`}>Typing...</Text>
             </View>
@@ -362,18 +345,16 @@ const AIChat: React.FC<AIChatProps> = ({
         {showSuggestions && messages.length === 0 && (
           <View className="mb-4">
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-3">
-              {categories.map(cat => (
+              {categories.map((cat) => (
                 <Pressable
                   key={cat.id}
                   onPress={() => setSelectedCategory(cat.id)}
-                  className={`flex-row items-center px-4 py-2 rounded-full mr-2 border ${
-                    selectedCategory === cat.id
-                      ? themeStyles.suggestionButtonActive
-                      : themeStyles.suggestionButton
-                  }`}
-                >
-                  <Ionicons name={cat.icon} size={16} color={selectedCategory === cat.id ? 'white' : (isDarkMode ? 'gray' : 'gray')} />
-                  <Text className={`ml-2 font-medium ${selectedCategory === cat.id ? 'text-white' : (isDarkMode ? 'text-gray-200' : 'text-gray-700')}`}>
+                  className={`mr-2 flex-row items-center rounded-full border px-4 py-2 ${
+                    selectedCategory === cat.id ? themeStyles.suggestionButtonActive : themeStyles.suggestionButton
+                  }`}>
+                  <Ionicons name={cat.icon} size={16} color={selectedCategory === cat.id ? 'white' : isDarkMode ? 'gray' : 'gray'} />
+                  <Text
+                    className={`ml-2 font-medium ${selectedCategory === cat.id ? 'text-white' : isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
                     {cat.name}
                   </Text>
                 </Pressable>
@@ -385,12 +366,9 @@ const AIChat: React.FC<AIChatProps> = ({
                 <Pressable
                   key={suggestion.id}
                   onPress={() => handleSuggestionPress(suggestion)}
-                  className={`flex-row items-center px-4 py-2 rounded-full m-1 border ${themeStyles.suggestionButton}`}
-                >
+                  className={`m-1 flex-row items-center rounded-full border px-4 py-2 ${themeStyles.suggestionButton}`}>
                   <Ionicons name={suggestion.icon} size={16} color={isDarkMode ? 'gray' : 'gray'} />
-                  <Text className={`ml-2 text-sm ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
-                    {suggestion.text}
-                  </Text>
+                  <Text className={`ml-2 text-sm ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>{suggestion.text}</Text>
                 </Pressable>
               ))}
             </View>
@@ -401,14 +379,13 @@ const AIChat: React.FC<AIChatProps> = ({
           {enableVoice && (
             <Pressable
               onPress={() => Alert.alert('Voice input', 'Voice input is not yet implemented.')}
-              className="p-3 rounded-full bg-red-500 mr-2"
-            >
+              className="mr-2 rounded-full bg-red-500 p-3">
               <Ionicons name="mic" size={24} color="white" />
             </Pressable>
           )}
           <TextInput
             ref={inputRef}
-            className={`flex-1 border rounded-full py-3 px-4 ${themeStyles.textInput} ${isDarkMode ? 'border-gray-600' : 'border-gray-300'}`}
+            className={`flex-1 rounded-full border px-4 py-3 ${themeStyles.textInput} ${isDarkMode ? 'border-gray-600' : 'border-gray-300'}`}
             placeholder="Type your message..."
             placeholderTextColor={isDarkMode ? '#A0AEC0' : '#718096'}
             value={inputText}
@@ -420,14 +397,9 @@ const AIChat: React.FC<AIChatProps> = ({
           />
           <Pressable
             onPress={() => sendMessage(inputText)}
-            className={`ml-2 p-3 rounded-full ${themeStyles.sendButton}`}
-            disabled={isLoading || !inputText.trim()}
-          >
-            {isLoading ? (
-              <ActivityIndicator color="white" />
-            ) : (
-              <Ionicons name="send" size={24} color="white" />
-            )}
+            className={`ml-2 rounded-full p-3 ${themeStyles.sendButton}`}
+            disabled={isLoading || !inputText.trim()}>
+            {isLoading ? <ActivityIndicator color="white" /> : <Ionicons name="send" size={24} color="white" />}
           </Pressable>
         </View>
       </View>
