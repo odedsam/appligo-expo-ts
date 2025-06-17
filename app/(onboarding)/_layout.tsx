@@ -1,20 +1,24 @@
 import { Stack, usePathname } from 'expo-router';
 import { View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useOnboardingNavigation} from "@/store/onboarding"
 
 export default function OnboardingLayout() {
   const pathname = usePathname();
 
   const getStepNumber = (path: string): number => {
-    if (path.includes('stepone')) return 1;
-    if (path.includes('steptwo')) return 2;
-    if (path.includes('stepthree')) return 3;
-    if (path.includes('stepfour')) return 4;
+    if (path.includes('step-one')) return 1;
+    if (path.includes('step-two')) return 2;
+    if (path.includes('step-three')) return 3;
+    if (path.includes('step-four')) return 4;
     return 1;
-  };
+   };
 
-  const currentStep = getStepNumber(pathname);
-  const totalSteps = 4;
+   const {currentStep, totalSteps, } = useOnboardingNavigation()
+   console.log(" OnboardingLayout ~ currentStep:", currentStep)
+   console.log(" OnboardingLayout ~ totalSteps:", totalSteps)
+  // const currentStep = getStepNumber(pathname);
+  // const totalSteps = 4;
   const progressPercentage = (currentStep / totalSteps) * 100;
 
   return (
@@ -28,7 +32,7 @@ export default function OnboardingLayout() {
                   Getting Started
                 </Text>
                 <Text className="text-sm font-medium text-white">
-                  Step <Text className='text-green-500 font-bold'>{currentStep}</Text> of <Text>{totalSteps}</Text>
+                  Step <Text className='text-green-500'>{currentStep}</Text> of <Text>{totalSteps}</Text>
                 </Text>
               </View>
 

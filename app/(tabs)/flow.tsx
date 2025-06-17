@@ -37,7 +37,7 @@ export default function Flow() {
       id: 'focus',
       title: 'Focus Flow',
       description: 'Boost your concentration and productivity',
-      icon: 'navigation',
+      icon: 'screw',
       color: '#667eea',
       progress: 75,
       status: 'active',

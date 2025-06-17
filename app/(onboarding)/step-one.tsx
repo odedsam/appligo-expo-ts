@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { useOnboardingNavigation } from '@/store/onboarding';
+
 
 export default function StepOne() {
   const [fullName, setFullName] = useState('');
@@ -16,7 +18,7 @@ export default function StepOne() {
 
   const handleContinue = () => { router.push('./step-two'); };
   const handleSkip = () => { router.push('./step-two'); };
-
+  const { nextStep } = useOnboardingNavigation()
 
 
   return (
@@ -109,7 +111,7 @@ export default function StepOne() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={handleSkip}
+            onPress={nextStep}
             className="w-full bg-zinc-700 py-4 rounded-lg">
             <Text className="text-white text-base font-semibold text-center">
               Skip For Now
